@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { PriceConverterModule } from './price-converter/price-converter.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Connection } from 'typeorm';
 
 @Module({
   imports: [
@@ -18,5 +17,4 @@ import { Connection } from 'typeorm';
   providers: [],
 })
 export class AppModule {
-  constructor(private connection: Connection) { }
 }
