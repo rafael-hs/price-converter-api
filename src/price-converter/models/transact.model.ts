@@ -2,13 +2,13 @@ import { Guid } from "guid-typescript"
 import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 
 @Entity()
-export class PriceConverterModel {
+export class TransactModel {
 
     constructor(
         userId: number,
-        sourceCurrency: number,
+        sourceCurrency: string,
         sourceValue: number,
-        targetCurrency: number) {
+        targetCurrency: string) {
 
         this.userId = userId;
         this.sourceCurrency = sourceCurrency;
@@ -17,23 +17,23 @@ export class PriceConverterModel {
         this.dateConversion = Date();
         this.createGuid();
     }
-
-    @PrimaryGeneratedColumn()
-    protected userId: number;
     
-    @Column()
+    @PrimaryGeneratedColumn('uuid')
     protected transactId: string;
+    @Column()
+    protected userId: number;
 
     @Column()
-    protected sourceCurrency: number;
+    protected sourceCurrency: string;
     @Column()
     protected sourceValue: number;
     @Column()
-    protected targetCurrency: number;
-    @Column()
+    protected targetCurrency: string;
+
+    @Column('integer')
     protected targetValue: number
     
-    @Column()
+    @Column('integer')
     protected rateConversion: number;
     @Column()
     protected dateConversion: string;
@@ -47,10 +47,10 @@ export class PriceConverterModel {
     }
 
     public setTargetValue(targetValue: number) {
-        this.targetValue = targetValue;
+        this.targetValue = +targetValue.toFixed(2);
     }
 
     public setRateConversion(rateConversion: number) {
-        this.rateConversion = rateConversion;
+        this.rateConversion = +rateConversion.toFixed(2);
     }
 }

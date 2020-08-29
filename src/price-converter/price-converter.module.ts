@@ -1,17 +1,17 @@
 import { Module, HttpModule } from '@nestjs/common';
 import { PriceConverterController } from './price-converter.controller';
-import { PriceConverterService } from './services/price-converter.service';
+import { TransactService } from './services/transact.service';
 import { CurrencyService } from './services/currency.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { PriceConverterModel } from './models/price-converter.model';
+import { TransactModel } from './models/transact.model';
 
 @Module({
   imports: [
     HttpModule,
-    TypeOrmModule.forFeature([PriceConverterModel])
+    TypeOrmModule.forFeature([TransactModel]),
   ],
   providers: [
-    PriceConverterService,
+    TransactService,
     CurrencyService
   ],
   controllers: [

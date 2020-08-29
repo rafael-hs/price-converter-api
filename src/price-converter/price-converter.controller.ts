@@ -1,23 +1,35 @@
-import { Controller, Get, Post, Param } from '@nestjs/common';
+import { Controller, Get, Post, Param, Body } from '@nestjs/common';
 import { CurrencyService } from './services/currency.service';
 import { CurrencyRatesDto } from './dto/currency-rates.dto';
-import { Observable } from 'rxjs';
-import { InjectRepository } from '@nestjs/typeorm';
-import { PriceConverterModel } from './models/price-converter.model';
-import { Repository } from 'typeorm';
+import { TransactModel } from './models/transact.model';
+import { TransactService } from './services/transact.service';
+import { TransactDto } from './dto/transact.dto';
 
-@Controller('price-converter')
+@Controller('transact')
 export class PriceConverterController {
 
-
     constructor(
-        private currencyService: CurrencyService,
-        @InjectRepository(PriceConverterModel)
-        private priceConverterRepository: Repository<PriceConverterModel>
+        private readonly currencyService: CurrencyService,
+        private readonly transactionService: TransactService
     ) { }
 
     @Get('rates/:base')
-    getRates(@Param('base') base: string): Observable<CurrencyRatesDto> {
-        return this.currencyService.getCurrencys(base);
+    async getRates(@Param('base') base: string): Promise<CurrencyRatesDto> {
+        return await this.currencyService.getCurrencys(base);
+    }
+
+    @Get('get-all-transactions')
+    async getAllTransactions(): Promise<TransactModel[]> {
+        return await this.transactionService.getAllTransaction();
+    }
+
+    @Get('get-transactions-by-userid/:userid')
+    async getTransactionById(@Param('userid') userId: number): Promise<TransactModel[]> {
+        return await this.transactionService.getTransactionByUserId(userId);
+    }
+
+    @Post('create-transaction')
+    async createTransaction(@Body() transactDto: TransactDto): Promise<TransactModel> {
+        return this.transactionService.createTransaction(transactDto);
     }
 }

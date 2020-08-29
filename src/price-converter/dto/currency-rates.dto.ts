@@ -1,5 +1,5 @@
 export class CurrencyRatesDto {
-    rates: [string, number][];
+    rates: Array<[string, number]>;
     base: string;
     date: string;
 }

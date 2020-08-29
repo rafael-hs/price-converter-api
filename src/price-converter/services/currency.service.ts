@@ -1,18 +1,13 @@
 import { Injectable, HttpService } from '@nestjs/common';
 import { CurrencyRatesDto } from '../dto/currency-rates.dto';
-import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { AxiosResponse } from 'axios'
 
 @Injectable()
 export class CurrencyService {
-    constructor(
-        private http: HttpService) { }
+    constructor(private readonly http: HttpService) { }
 
-
-    getCurrencys(targetCurrency: string): Observable<CurrencyRatesDto> {
-        return this.http.get(`https://api.exchangeratesapi.io/latest?base=${targetCurrency}`)
-            .pipe(
-                map(res => res.data)
-            )
+    async getCurrencys(targetCurrency: string): Promise<CurrencyRatesDto> {
+        const result = await this.http.get(`https://api.exchangeratesapi.io/latest?base=${targetCurrency}`).toPromise();
+        return result.data;
     }
 }
