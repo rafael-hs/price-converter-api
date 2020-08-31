@@ -17,17 +17,27 @@ export class PriceConverterController {
     ) { }
 
 
+    @ApiResponse({ status: 200, description: 'Your return and request successful' })
+    @ApiResponse({ status: 400, description: 'Some problem with params..' })
+    @ApiResponse({ status: 500, description: 'Internal Server error. Please talk with our support team' })
     @UsePipes(ValidationPipe)
     @Get('rates')
     async getRates(@Query() baseCurrency: BaseCurrencyDto): Promise<CurrencyRatesDto> {
-        return await this.currencyService.getCurrencys(baseCurrency.baseCurrency);
+        const result = await this.currencyService.getCurrencys(baseCurrency.baseCurrency);
+        return result;
     }
 
+    @ApiResponse({ status: 200, description: 'Your return and request successful' })
+    @ApiResponse({ status: 400, description: 'Some problem with params..' })
+    @ApiResponse({ status: 500, description: 'Internal Server error. Please talk with our support team' })
     @Get('get-all-transactions')
     async getAllTransactions(): Promise<TransactModel[]> {
         return await this.transactionService.getAllTransaction();
     }
 
+    @ApiResponse({ status: 201, description: 'Your return and request successful' })
+    @ApiResponse({ status: 400, description: 'Some problem with params..' })
+    @ApiResponse({ status: 500, description: 'Internal Server error. Please talk with our support team' })
     @UsePipes(ValidationPipe)
     @Get('get-transactions-by-userid')
     async getTransactionById(@Query() userId: GetUserDto): Promise<TransactModel[]> {
@@ -36,6 +46,7 @@ export class PriceConverterController {
 
     @ApiResponse({ status: 201, description: 'The record has been successfully created.' })
     @ApiResponse({ status: 400, description: 'Some problem with params..' })
+    @ApiResponse({ status: 500, description: 'Internal Server error. Please talk with our support team' })
     @UsePipes(ValidationPipe)
     @Post('create-transaction')
     async createTransaction(@Body() transactDto: TransactDto): Promise<TransactModel> {
