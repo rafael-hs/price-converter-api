@@ -10,11 +10,10 @@ async function bootstrap() {
     .setDescription('This application return\'s informations about a price converter')
     .setVersion('1.0')
     .setContact('Rafael Honório', 'https://rafael-hs.github.io/rafahs/#/', 'rafael.contatotrab@gmail.com')
-    .addTag('Routes')
     .build();
     
   const document = SwaggerModule.createDocument(app, options);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('/', app, document);
 
 
   await app.listen(3000);
