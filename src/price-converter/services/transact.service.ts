@@ -1,8 +1,8 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CurrencyService } from './currency.service';
 import { TransactDto } from '../dto/transact.dto';
 import { TransactModel } from '../models/transact.model';
-import { Repository } from 'typeorm';
+import { DeleteResult, getConnection, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
@@ -25,8 +25,27 @@ export class TransactService {
     }
 
     async getTransactionByUserId(userId: number): Promise<TransactModel[]> {
-        let query = `select * from transact_model where userId = :userId`;
-        const result = await this.transactRepository.query(query,[userId]);
+        const result = await getConnection()
+            .createQueryBuilder()
+            .select()
+            .from(TransactModel, null)
+            .where("userId = :userId", { userId: userId })
+            .execute();
+        return result;
+    }
+
+    async deleteTransactionById(id: number): Promise<DeleteResult> {
+        const result = await this.transactRepository.delete(id)
+        return result;
+    }
+
+    async deleteTransactionsByUserId(userId: number): Promise<DeleteResult> {
+        const result = await getConnection()
+            .createQueryBuilder()
+            .delete()
+            .from(TransactModel)
+            .where("userId = :userId", { userId: userId })
+            .execute();
         return result;
     }
 

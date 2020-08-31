@@ -14,12 +14,15 @@ export class TransactModel {
         this.sourceCurrency = sourceCurrency;
         this.sourceValue = sourceValue;
         this.targetCurrency = targetCurrency;
-        this.dateConversion = Date();
+        this.dateConversion = new Date().toLocaleDateString();
         this.createGuid();
     }
     
-    @PrimaryGeneratedColumn('uuid')
-    protected transactId: string;
+    @PrimaryGeneratedColumn()
+    protected id: number;
+
+    @Column('uuid')
+    protected transactionHashId: string;
     @Column()
     protected userId: number;
 
@@ -39,11 +42,11 @@ export class TransactModel {
     protected dateConversion: string;
 
     private createGuid() {
-        this.transactId = Guid.create().toString();
+        this.transactionHashId = Guid.create().toString();
     }
 
     public getGuid(): string {
-        return this.transactId;
+        return this.transactionHashId;
     }
 
     public setTargetValue(targetValue: number) {

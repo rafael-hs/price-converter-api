@@ -1,12 +1,14 @@
-import { Controller, Get, Post, Param, Body, UsePipes, ValidationPipe, Req, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, UsePipes, ValidationPipe, Query, Delete } from '@nestjs/common';
 import { CurrencyService } from './services/currency.service';
 import { CurrencyRatesDto } from './dto/currency-rates.dto';
 import { TransactModel } from './models/transact.model';
 import { TransactService } from './services/transact.service';
 import { TransactDto } from './dto/transact.dto';
 import { BaseCurrencyDto } from './dto/base-currency.dto';
-import { GetUserDto } from './dto/get-user.dto';
+import { UserIdDto } from './dto/user-id.dto';
 import { ApiResponse } from '@nestjs/swagger';
+import { IdDeleteDto } from './dto/id-delete.dto';
+import { DeleteResult } from 'typeorm';
 
 @Controller('transact')
 export class PriceConverterController {
@@ -35,12 +37,12 @@ export class PriceConverterController {
         return await this.transactionService.getAllTransaction();
     }
 
-    @ApiResponse({ status: 201, description: 'Your return and request successful' })
+    @ApiResponse({ status: 200, description: 'Your return and request successful' })
     @ApiResponse({ status: 400, description: 'Some problem with params..' })
     @ApiResponse({ status: 500, description: 'Internal Server error. Please talk with our support team' })
     @UsePipes(ValidationPipe)
     @Get('get-transactions-by-userid')
-    async getTransactionById(@Query() userId: GetUserDto): Promise<TransactModel[]> {
+    async getTransactionById(@Query() userId: UserIdDto): Promise<TransactModel[]> {
         return await this.transactionService.getTransactionByUserId(userId.userId);
     }
 
@@ -51,5 +53,23 @@ export class PriceConverterController {
     @Post('create-transaction')
     async createTransaction(@Body() transactDto: TransactDto): Promise<TransactModel> {
         return this.transactionService.createTransaction(transactDto);
+    }
+
+    @ApiResponse({ status: 200, description: 'The record has been successfully deleted.' })
+    @ApiResponse({ status: 400, description: 'Some problem with params..' })
+    @ApiResponse({ status: 500, description: 'Internal Server error. Please talk with our support team' })
+    @UsePipes(ValidationPipe)
+    @Delete('delete-transaction-by-id')
+    async deleteTransactionById(@Body() idDeleteDto: IdDeleteDto): Promise<DeleteResult> {
+        return this.transactionService.deleteTransactionById(idDeleteDto.id);
+    }
+
+    @ApiResponse({ status: 200, description: 'The record has been successfully deleted.' })
+    @ApiResponse({ status: 400, description: 'Some problem with params..' })
+    @ApiResponse({ status: 500, description: 'Internal Server error. Please talk with our support team' })
+    @UsePipes(ValidationPipe)
+    @Delete('delete-transaction-by-user-id')
+    async deleteTransactionsByUserId(@Body() idDeleteDto: UserIdDto): Promise<DeleteResult> {
+        return this.transactionService.deleteTransactionsByUserId(idDeleteDto.userId);
     }
 }

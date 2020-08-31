@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Double } from "typeorm";
-import { IsEmail, IsNotEmpty, isNotEmpty, IsNumber } from 'class-validator';
+import { IsNotEmpty, IsNumber } from 'class-validator';
 
 export class TransactDto {
     @IsNotEmpty()
