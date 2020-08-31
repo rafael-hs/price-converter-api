@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Double } from "typeorm";
-import { IsNotEmpty, IsNumber } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class TransactDto {
     @IsNotEmpty()
@@ -14,6 +14,7 @@ export class TransactDto {
     userId: number;
 
     @IsNotEmpty()
+    @IsString()
     @ApiProperty({
         type: String,
         description: 'The type of currency you entries',
@@ -33,6 +34,7 @@ export class TransactDto {
     sourceValue: number;
 
     @IsNotEmpty()
+    @IsString()
     @ApiProperty({
         type: String,
         description: 'The target currency you want',

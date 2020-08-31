@@ -34,11 +34,6 @@ export class TransactService {
         return result;
     }
 
-    async deleteTransactionById(id: number): Promise<DeleteResult> {
-        const result = await this.transactRepository.delete(id)
-        return result;
-    }
-
     async deleteTransactionsByUserId(userId: number): Promise<DeleteResult> {
         const result = await getConnection()
             .createQueryBuilder()

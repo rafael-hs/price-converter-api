@@ -1,6 +1,5 @@
 import { Injectable, HttpService } from '@nestjs/common';
 import { CurrencyRatesDto } from '../dto/currency-rates.dto';
-import { AxiosResponse } from 'axios'
 
 @Injectable()
 export class CurrencyService {
