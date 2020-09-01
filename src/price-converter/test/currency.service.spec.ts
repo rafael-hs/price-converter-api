@@ -18,7 +18,7 @@ describe('CurrencyService', () => {
     expect(service).toBeDefined();
   });
 
-  let modelRates = {
+  const modelRates = {
     "rates": {
       "CAD": 0.2370595049,
       "HKD": 1.4075265212,
@@ -59,9 +59,10 @@ describe('CurrencyService', () => {
   }
 
   it('get currecy rates success', async () => {
-    let response = await service.getCurrencys('BRL');
+    const response = await service.getCurrencys('BRL');
+    expect(200);
     expect(response).toBeTruthy();
-    expect(200)
-    expect(modelRates)
+    expect(Object.entries(response.rates).length).toEqual(Object.entries(modelRates.rates).length);
+    expect(response.base).toEqual(modelRates.base);
   })
 });

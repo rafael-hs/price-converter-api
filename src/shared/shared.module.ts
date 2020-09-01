@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
-import { HttpErrorFilter } from 'src/shared/error-handler/http-error.filter';
+import { HttpErrorFilter } from './error-handler/http-error.filter';
 import { LoggingInterceptor } from './interceptors/logging.interceptor';
 
 @Module({

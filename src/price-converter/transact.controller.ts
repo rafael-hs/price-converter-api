@@ -6,11 +6,12 @@ import { TransactService } from './services/transact.service';
 import { TransactDto } from './dto/transact.dto';
 import { BaseCurrencyDto } from './dto/base-currency.dto';
 import { UserIdDto } from './dto/user-id.dto';
-import { ApiResponse } from '@nestjs/swagger';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { DeleteResult } from 'typeorm';
 
+@ApiTags('transact')
 @Controller('transact')
-export class PriceConverterController {
+export class TransactController {
 
     constructor(
         private readonly currencyService: CurrencyService,
@@ -40,7 +41,7 @@ export class PriceConverterController {
     @ApiResponse({ status: 400, description: 'Some problem with params..' })
     @ApiResponse({ status: 500, description: 'Internal Server error. Please talk with our support team' })
     @UsePipes(ValidationPipe)
-    @Get('get-transactions-by-userid')
+    @Get('get-transactions-by-user-id')
     async getTransactionById(@Query() userId: UserIdDto): Promise<TransactModel[]> {
         return await this.transactionService.getTransactionByUserId(userId.userId);
     }
@@ -59,7 +60,7 @@ export class PriceConverterController {
     @ApiResponse({ status: 500, description: 'Internal Server error. Please talk with our support team' })
     @UsePipes(ValidationPipe)
     @Delete('delete-transaction-by-user-id')
-    async deleteTransactionsByUserId(@Body() idDeleteDto: UserIdDto): Promise<DeleteResult> {
-        return this.transactionService.deleteTransactionsByUserId(idDeleteDto.userId);
+    async deleteTransactionsByUserId(@Body() userId: UserIdDto): Promise<DeleteResult> {
+        return this.transactionService.deleteTransactionsByUserId(userId.userId);
     }
 }

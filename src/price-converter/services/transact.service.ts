@@ -45,7 +45,7 @@ export class TransactService {
     }
 
     private farmTransaction(transactDto: TransactDto, targetValeu: number): TransactModel {
-        let transctModel = new TransactModel(
+        const transctModel = new TransactModel(
             transactDto.userId,
             transactDto.sourceCurrency,
             transactDto.sourceValue,

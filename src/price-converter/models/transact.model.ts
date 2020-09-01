@@ -3,7 +3,6 @@ import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 
 @Entity()
 export class TransactModel {
-
     constructor(
         userId: number,
         sourceCurrency: string,
@@ -17,7 +16,7 @@ export class TransactModel {
         this.dateConversion = new Date().toLocaleDateString();
         this.createGuid();
     }
-    
+
     @PrimaryGeneratedColumn()
     protected id: number;
 
@@ -32,28 +31,31 @@ export class TransactModel {
     protected sourceValue: number;
     @Column()
     protected targetCurrency: string;
-
     @Column('integer')
     protected targetValue: number
-    
+
     @Column('integer')
     protected rateConversion: number;
     @Column()
     protected dateConversion: string;
 
-    private createGuid() {
-        this.transactionHashId = Guid.create().toString();
-    }
 
-    public getGuid(): string {
-        return this.transactionHashId;
-    }
+    //#region private methods
+    private createGuid(): void { this.transactionHashId = Guid.create().toString(); }
+    //#endregion
 
-    public setTargetValue(targetValue: number) {
-        this.targetValue = +targetValue.toFixed(2);
-    }
+    //#region set methods
+    setTargetValue(targetValue: number): void { this.targetValue = +targetValue.toFixed(2); }
+    setRateConversion(rateConversion: number): void { this.rateConversion = +rateConversion.toFixed(2) }
+    //#endregion
 
-    public setRateConversion(rateConversion: number) {
-        this.rateConversion = +rateConversion.toFixed(2);
-    }
+    //#region get methods
+    getGuid(): string { return this.transactionHashId }
+    getDate(): string { return this.dateConversion }
+    getSourceCurrency(): string { return this.sourceCurrency }
+    getSourceValue(): number { return this.sourceValue }
+    getTargetCurrency(): string { return this.targetCurrency }
+    getTargetValue(): number { return this.targetValue }
+    getUserId(): number { return this.userId }
+    //#endregion
 }
