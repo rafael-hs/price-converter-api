@@ -54,7 +54,7 @@ $ npm run test
 #testes de integração
 $ npm run test:e2e
 #cobertura de testes
-$ npm run test:
+$ npm run test:cov
 ```
 
 ### qualquer possível problema, meus contatos ⇊
